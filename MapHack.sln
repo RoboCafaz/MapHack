@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Core", "Source\MapH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Console", "Source\MapHack.Console\MapHack.Console.csproj", "{A96B74B2-25ED-47F4-8B29-3544BE9D154D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Test", "MapHack.Test\MapHack.Test.csproj", "{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A96B74B2-25ED-47F4-8B29-3544BE9D154D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A96B74B2-25ED-47F4-8B29-3544BE9D154D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A96B74B2-25ED-47F4-8B29-3544BE9D154D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
