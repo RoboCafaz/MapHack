@@ -3,13 +3,8 @@ using System.Drawing;
 
 namespace MapHack.Core
 {
-    public static class ImageProcessor
+    public static class DimensionalTools
     {
-        public static bool ProcessTiles(ImageProcessorArgs args)
-        {
-            return false;
-        }
-
         public static int GetDimensionForZoom(int zoom)
         {
             return (int)Math.Pow(2, zoom);
@@ -41,11 +36,6 @@ namespace MapHack.Core
         public static int GetMaximumResolution(int width, int height, int tileSize)
         {
             return GetResolutionForZoom(GetMaximumZoom(width, height, tileSize), tileSize);
-        }
-
-        public static Image PadImage(Image image, int maxZoom, int tileSize)
-        {
-            return image;
         }
     }
 }
