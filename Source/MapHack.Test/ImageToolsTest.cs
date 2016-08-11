@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using ImageMagick;
 using MapHack.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -59,7 +60,7 @@ namespace MapHack.Test
         [TestMethod]
         public void CropImage_WithLargerSize_ShouldPadTheImageWithInputColor()
         {
-            var bitmap = CreateImage(256, 256) as Bitmap;
+            var bitmap = CreateImage(256, 256).ToBitmap();
             Assert.IsNotNull(bitmap);
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -71,7 +72,7 @@ namespace MapHack.Test
             Assert.AreEqual(Color.Red.ToArgb(), bitmap.GetPixel(127, 127).ToArgb());
             Assert.AreEqual(Color.Blue.ToArgb(), bitmap.GetPixel(255, 255).ToArgb());
 
-            bitmap = ImageTools.CropImage(bitmap, 512, 512, Color.Yellow) as Bitmap;
+            bitmap = ImageTools.CropImage(new MagickImage(bitmap), 512, 512, Color.Yellow).ToBitmap();
             Assert.IsNotNull(bitmap);
             Assert.AreEqual(512, bitmap.Width);
             Assert.AreEqual(512, bitmap.Height);
@@ -86,7 +87,7 @@ namespace MapHack.Test
         [TestMethod]
         public void CropImage_WithSmallerSize_ShrinkImageCanvas()
         {
-            var bitmap = CreateImage(256, 256) as Bitmap;
+            var bitmap = CreateImage(256, 256).ToBitmap();
             Assert.IsNotNull(bitmap);
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -98,7 +99,7 @@ namespace MapHack.Test
             Assert.AreEqual(Color.Yellow.ToArgb(), bitmap.GetPixel(127, 127).ToArgb());
             Assert.AreEqual(Color.Red.ToArgb(), bitmap.GetPixel(255, 255).ToArgb());
 
-            bitmap = ImageTools.CropImage(bitmap, 208, 208) as Bitmap;
+            bitmap = ImageTools.CropImage(new MagickImage(bitmap), 208, 208).ToBitmap();
             Assert.IsNotNull(bitmap);
             Assert.AreEqual(208, bitmap.Width);
             Assert.AreEqual(208, bitmap.Height);
@@ -112,7 +113,7 @@ namespace MapHack.Test
         [TestMethod]
         public void ResizeImage_WithLargerSize_ShouldInflateTheImage()
         {
-            var bitmap = CreateImage(256, 256) as Bitmap;
+            var bitmap = CreateImage(256, 256).ToBitmap();
             Assert.IsNotNull(bitmap);
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -124,7 +125,7 @@ namespace MapHack.Test
             Assert.AreEqual(Color.Blue.ToArgb(), bitmap.GetPixel(127, 127).ToArgb());
             Assert.AreEqual(Color.Red.ToArgb(), bitmap.GetPixel(255, 255).ToArgb());
 
-            bitmap = ImageTools.ResizeImage(bitmap, 512, 512) as Bitmap;
+            bitmap = ImageTools.ResizeImage(new MagickImage(bitmap), 512, 512).ToBitmap();
             Assert.IsNotNull(bitmap);
             Assert.AreEqual(512, bitmap.Width);
             Assert.AreEqual(512, bitmap.Height);
@@ -139,7 +140,7 @@ namespace MapHack.Test
         [TestMethod]
         public void ResizeImage_WithSmallerSize_ShouldDeflateTheImage()
         {
-            var bitmap = CreateImage(256, 256) as Bitmap;
+            var bitmap = CreateImage(256, 256).ToBitmap();
             Assert.IsNotNull(bitmap);
             using (var graphics = Graphics.FromImage(bitmap))
             {
@@ -151,7 +152,7 @@ namespace MapHack.Test
             Assert.AreEqual(Color.Blue.ToArgb(), bitmap.GetPixel(127, 127).ToArgb());
             Assert.AreEqual(Color.Red.ToArgb(), bitmap.GetPixel(255, 255).ToArgb());
 
-            bitmap = ImageTools.ResizeImage(bitmap, 128, 128) as Bitmap;
+            bitmap = ImageTools.ResizeImage(new MagickImage(bitmap), 128, 128).ToBitmap();
             Assert.IsNotNull(bitmap);
             Assert.AreEqual(128, bitmap.Width);
             Assert.AreEqual(128, bitmap.Height);
@@ -163,9 +164,9 @@ namespace MapHack.Test
             Assert.AreEqual(Color.Red.ToArgb(), bitmap.GetPixel(124, 124).ToArgb());
         }
 
-        private Image CreateImage(int width, int height)
+        private MagickImage CreateImage(int width, int height)
         {
-            return new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            return new MagickImage(MagickColors.White, width, height);
         }
     }
 }

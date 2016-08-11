@@ -1,74 +1,118 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+using System.IO;
+using ImageMagick;
 
 namespace MapHack.Core
 {
     public static class ImageTools
     {
 
-        public static int GetMaximumZoom(Image image, int tileSize)
+        public static int GetMaximumZoom(MagickImage image, int tileSize)
         {
+            Debug.WriteLine("Calculating maximum zoom of image.");
             return DimensionalTools.GetMaximumZoom(image.Width, image.Height, tileSize);
         }
 
-        public static int GetMaximumDimension(Image image, int tileSize)
+        public static int GetMaximumDimension(MagickImage image, int tileSize)
         {
+            Debug.WriteLine("Calculating maximum dimension of image.");
             return DimensionalTools.GetMaximumDimension(image.Width, image.Height, tileSize);
         }
 
-        public static int GetMaximumResolution(Image image, int tileSize)
+        public static int GetMaximumResolution(MagickImage image, int tileSize)
         {
+            Debug.WriteLine("Calculating maximum resolution of image.");
             return DimensionalTools.GetMaximumResolution(image.Width, image.Height, tileSize);
         }
 
-        public static Image CropImage(Image image, int targetWidth, int targetHeight, Color? padColor = null)
+        public static MagickImage CropImage(MagickImage image, int targetWidth, int targetHeight, Color? padColor = null)
         {
-            if (image.Width == targetWidth && image.Height == targetHeight)
-            {
-                return image;
-            }
-            var bitmap = new Bitmap(targetWidth, targetHeight, PixelFormat.Format24bppRgb);
-            bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(bitmap))
+            if (image.Width != targetWidth || image.Height != targetHeight)
             {
                 if (padColor.HasValue)
                 {
-                    graphics.FillRectangle(new SolidBrush(padColor.Value), new Rectangle(0, 0, targetWidth, targetHeight));
+                    Debug.WriteLine($"Setting background color of image to {padColor.Value}");
+                    image.BackgroundColor = new MagickColor(padColor.Value);
                 }
-                graphics.DrawImage(image,
-                    new Rectangle((targetWidth / 2) - (image.Width / 2), (targetHeight / 2) - (image.Height / 2), image.Width, image.Height),
-                    new Rectangle(0, 0, image.Width, image.Height),
-                    GraphicsUnit.Pixel);
+                Debug.WriteLine($"Cropping image to {targetWidth}x{targetHeight}...");
+                image.Extent(targetWidth, targetHeight, Gravity.Center);
             }
-            return bitmap;
+            else
+            {
+                Debug.WriteLine($"Skipping image crop to {targetWidth}x{targetHeight}. Image is already the ideal size.");
+            }
+            return image;
         }
 
-        public static Image ResizeImage(Image image, int targetWidth, int targetHeight)
+        public static MagickImage ResizeImage(MagickImage image, int targetWidth, int targetHeight)
         {
-            if (image.Width == targetWidth && image.Height == targetHeight)
+            if (image.Width != targetWidth || image.Height != targetHeight)
             {
-                return image;
+                Debug.WriteLine($"Resizing image to {targetWidth}x{targetHeight}...");
+                image.Resize(targetWidth, targetHeight);
             }
-            var bitmap = new Bitmap(targetWidth, targetHeight, PixelFormat.Format24bppRgb);
-            bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(bitmap))
+            else
             {
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.DrawImage(image,
-                    new Rectangle(0, 0, targetWidth, targetHeight),
-                    new Rectangle(0, 0, image.Width, image.Height),
-                    GraphicsUnit.Pixel);
+                Debug.WriteLine($"Skipping image resize to {targetWidth}x{targetHeight}. Image is already the ideal size.");
             }
-            return bitmap;
+            return image;
         }
 
-        public static Image LoadImage(string source)
+        public static MagickImage LoadImage(string source)
         {
-            return Image.FromFile(source);
+            Debug.WriteLine($"Loading image '{source}'.");
+            return new MagickImage(new FileInfo(source));
+        }
+
+        public static IEnumerable<MagickImage> CutTiles(MagickImage image, int tileSize)
+        {
+            Debug.WriteLine($"Cutting image to tiles of {tileSize}x{tileSize}");
+            return image.CropToTiles(tileSize, tileSize);
+        }
+
+        public static void SaveTiles(IEnumerable<MagickImage> tiles, int zoom, int dimension, string outputDirectory, bool folders)
+        {
+            var x = 0;
+            var y = 0;
+            if (outputDirectory == null)
+            {
+                outputDirectory = Directory.GetCurrentDirectory();
+            }
+            if (!Directory.Exists(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+            }
+            foreach (var tile in tiles)
+            {
+                string directory;
+                string filename;
+                if (folders)
+                {
+                    directory = Path.Combine(outputDirectory, zoom.ToString(), x.ToString());
+                    filename = y.ToString();
+                }
+                else
+                {
+                    directory = outputDirectory;
+                    filename = String.Join("_", zoom, x, y);
+                }
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                var path = Path.Combine(directory, String.Concat(filename, ".", tile.Format.ToString()));
+                tile.Write(path);
+                x++;
+                if (x == dimension)
+                {
+                    x = 0;
+                    y++;
+                }
+            }
         }
     }
 }

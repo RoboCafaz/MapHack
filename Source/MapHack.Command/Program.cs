@@ -17,7 +17,7 @@ namespace MapHack.Command
                 {"s|source=", "source image to cut", x => options.InputImage = x},
                 {"d|dest=", "destination folder to export to", x => options.OutputDirectory = x},
                 {"t|tilesize=", "size of tiles", x => options.TileSize = int.Parse(x)},
-                {"f|folders=", "use folder format", x => options.UseFolders = x != null},
+                {"f|folders", "use folder format", x => options.UseFolders = x != null},
                 {"u|upscale", "upscale images to fit maximum zoom levels", x => options.Upscale = x != null},
                 {"m|min=", "minimum zoom level (0-21)", x => options.MinimumZoom = int.Parse(x)},
                 {"x|max=", "maximum zoom level (0-21)", x => options.MaximumZoom = int.Parse(x)},
