@@ -44,9 +44,5 @@ namespace MapHack.Command
                 Console.WriteLine("Try `--help` for more information.");
             }
         }
-
-        private static void ShowHelp()
-        {
-        }
     }
 }
