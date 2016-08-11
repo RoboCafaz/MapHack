@@ -22,19 +22,19 @@ namespace MapHack.Core
             return DimensionalTools.GetMaximumResolution(image.Width, image.Height, tileSize);
         }
 
-        public static Image CropImage(Image image, int padWidth, int padHeight, Color? backgroundColor = null)
+        public static Image CropImage(Image image, int targetWidth, int targetHeight, Color? padColor = null)
         {
-            var bitmap = new Bitmap(padWidth, padHeight, PixelFormat.Format24bppRgb);
+            var bitmap = new Bitmap(targetWidth, targetHeight, PixelFormat.Format24bppRgb);
             bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                if (backgroundColor.HasValue)
+                if (padColor.HasValue)
                 {
-                    graphics.FillRectangle(new SolidBrush(backgroundColor.Value), new Rectangle(0, 0, padWidth, padHeight));
+                    graphics.FillRectangle(new SolidBrush(padColor.Value), new Rectangle(0, 0, targetWidth, targetHeight));
                 }
                 graphics.DrawImage(image,
-                    new Rectangle((padWidth / 2) - (image.Width / 2), (padHeight / 2) - (image.Height / 2), image.Width, image.Height),
+                    new Rectangle((targetWidth / 2) - (image.Width / 2), (targetHeight / 2) - (image.Height / 2), image.Width, image.Height),
                     new Rectangle(0, 0, image.Width, image.Height),
                     GraphicsUnit.Pixel);
             }
