@@ -104,7 +104,7 @@ namespace MapHack.Core
                 {
                     Directory.CreateDirectory(directory);
                 }
-                var path = Path.Combine(directory, String.Concat(filename, ".", tile.Format.ToString()));
+                var path = Path.Combine(directory, String.Concat(filename, ".", tile.Format.ToString().ToLower()));
                 tile.Write(path);
                 x++;
                 if (x == dimension)
