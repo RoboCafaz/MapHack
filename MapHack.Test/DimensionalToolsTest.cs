@@ -19,7 +19,7 @@ namespace MapHack.Test
         }
 
         [TestMethod]
-        public void GetMaximumZoom_ShouldReturnTheZoomLevelThatCanContainTheZoomLevel()
+        public void GetMaximumZoom_ShouldReturnTheZoomLevelThatCanContainThisSize()
         {
             Assert.AreEqual(0, DimensionalTools.GetMaximumZoom(256, 64, 256));
             Assert.AreEqual(1, DimensionalTools.GetMaximumZoom(512, 64, 256));
