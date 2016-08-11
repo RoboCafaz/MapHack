@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
@@ -24,6 +25,10 @@ namespace MapHack.Core
 
         public static Image CropImage(Image image, int targetWidth, int targetHeight, Color? padColor = null)
         {
+            if (image.Width == targetWidth && image.Height == targetHeight)
+            {
+                return image;
+            }
             var bitmap = new Bitmap(targetWidth, targetHeight, PixelFormat.Format24bppRgb);
             bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
@@ -43,6 +48,10 @@ namespace MapHack.Core
 
         public static Image ResizeImage(Image image, int targetWidth, int targetHeight)
         {
+            if (image.Width == targetWidth && image.Height == targetHeight)
+            {
+                return image;
+            }
             var bitmap = new Bitmap(targetWidth, targetHeight, PixelFormat.Format24bppRgb);
             bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
@@ -55,6 +64,11 @@ namespace MapHack.Core
                     GraphicsUnit.Pixel);
             }
             return bitmap;
+        }
+
+        public static Image LoadImage(string source)
+        {
+            return Image.FromFile(source);
         }
     }
 }

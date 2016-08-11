@@ -7,8 +7,8 @@
     <ProjectGuid>{A96B74B2-25ED-47F4-8B29-3544BE9D154D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MapHack.Console</RootNamespace>
-    <AssemblyName>MapHack.Console</AssemblyName>
+    <RootNamespace>MapHack.Command</RootNamespace>
+    <AssemblyName>MapHack.Command</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -38,6 +38,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Options, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Options.4.4.0.0\lib\net4-client\Mono.Options.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MapHack.Core\MapHack.Core.csproj">
+      <Project>{16B1B33F-207D-4624-8018-0DDB1F8067D6}</Project>
+      <Name>MapHack.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

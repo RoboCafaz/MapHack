@@ -56,7 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Source\MapHack.Core\MapHack.Core.csproj">
+    <ProjectReference Include="..\MapHack.Core\MapHack.Core.csproj">
       <Project>{16B1B33F-207D-4624-8018-0DDB1F8067D6}</Project>
       <Name>MapHack.Core</Name>
     </ProjectReference>

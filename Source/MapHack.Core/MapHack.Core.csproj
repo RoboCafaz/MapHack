@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DimensionalTools.cs" />
+    <Compile Include="ImageProcessor.cs" />
     <Compile Include="ImageProcessorArgs.cs" />
     <Compile Include="ImageTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

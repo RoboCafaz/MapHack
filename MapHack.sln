@@ -5,9 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Core", "Source\MapHack.Core\MapHack.Core.csproj", "{16B1B33F-207D-4624-8018-0DDB1F8067D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Console", "Source\MapHack.Console\MapHack.Console.csproj", "{A96B74B2-25ED-47F4-8B29-3544BE9D154D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Command", "Source\MapHack.Command\MapHack.Command.csproj", "{A96B74B2-25ED-47F4-8B29-3544BE9D154D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Test", "MapHack.Test\MapHack.Test.csproj", "{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapHack.Test", "Source\MapHack.Test\MapHack.Test.csproj", "{9DBC8967-F277-46B7-95AD-E0376A0ADBB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

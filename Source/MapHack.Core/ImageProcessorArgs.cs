@@ -10,7 +10,7 @@ namespace MapHack.Core
         public bool UseFolders { get; set; } = true;
         public bool Upscale { get; set; }
         public int MinimumZoom { get; set; } = 0;
-        public int MaximumZoom { get; set; } = 28;
+        public int MaximumZoom { get; set; } = 21;
         public Color BackgroundColor { get; set; } = Color.White;
     }
 }
