@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using ImageMagick;
 
 namespace MapHack.Core
@@ -15,8 +17,9 @@ namespace MapHack.Core
                 return;
             }
 
-            var temporaryImage = Path.GetTempFileName();
+            var temporaryImage = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(Path.GetTempFileName()));
             image.Write(temporaryImage);
+            image.Dispose();
             args.InputImage = temporaryImage;
 
             for (var i = args.MinimumZoom; i <= args.MaximumZoom; i++)
@@ -30,6 +33,7 @@ namespace MapHack.Core
         private static MagickImage PrepareImage(ImageProcessorArgs args)
         {
             var image = ImageTools.LoadImage(args.InputImage);
+            args.OutputDirectory = Path.Combine(args.OutputDirectory, Path.GetFileNameWithoutExtension(args.InputImage));
 
             var maxSupportedZoom = ImageTools.GetMaximumZoom(image, args.TileSize);
             if (args.MaximumZoom == -1)
@@ -38,7 +42,8 @@ namespace MapHack.Core
             }
             if (args.MinimumZoom > args.MaximumZoom)
             {
-                Console.WriteLine($"The minimum zoom ({args.MinimumZoom}) is larger than the maximum zoom for this image ({args.MaximumZoom}). Please try different values.");
+                Console.WriteLine(
+                    $"The minimum zoom ({args.MinimumZoom}) is larger than the maximum zoom for this image ({args.MaximumZoom}). Please try different values.");
                 return null;
             }
 
@@ -77,6 +82,7 @@ namespace MapHack.Core
             var neededResolution = DimensionalTools.GetResolutionForZoom(zoom, args.TileSize);
             image = ImageTools.ResizeImage(image, neededResolution, neededResolution);
             var tiles = ImageTools.CutTiles(image, args.TileSize);
+            image.Dispose();
             ImageTools.SaveTiles(tiles, zoom, neededDimension, args.OutputDirectory, args.UseFolders);
         }
     }
