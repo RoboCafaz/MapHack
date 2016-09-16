@@ -33,7 +33,7 @@ namespace MapHack.Core
         private static MagickImage PrepareImage(ImageProcessorArgs args)
         {
             var image = ImageTools.LoadImage(args.InputImage);
-            args.OutputDirectory = Path.Combine(args.OutputDirectory, Path.GetFileNameWithoutExtension(args.InputImage));
+            args.OutputDirectory = Path.Combine(args.OutputDirectory ?? Directory.GetCurrentDirectory(), Path.GetFileNameWithoutExtension(args.InputImage));
 
             var maxSupportedZoom = ImageTools.GetMaximumZoom(image, args.TileSize);
             if (args.MaximumZoom == -1)
